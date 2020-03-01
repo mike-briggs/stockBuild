@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import {Button,Icon} from 'semantic-ui-react'
+import './App.css'
 
 export class StockPopup extends Component {
     render() {
         return (
-            <div style={{ marginTop: '0px', backgroundImage: 'none',background:'transparent',color:'white' }} className="" id="">
+            <div style={{ marginTop: '0px', backgroundImage: 'none',background:'transparent',color:'white' }} className="ticker" id="">
                 
             <div className="col-lg-12 col-md-12 col-sm-12 col-12" style={{ padding: '0px',background:'transparent'}}>
             <div style={{ padding: '0px',background:'transparent' }} className="row" >

@@ -34,7 +34,7 @@ export class Header extends Component {
         "changesPercentage": "(1.43%)",
         "companyName": "Facebook Inc."
       }, graph: false,
-      filteredChart: [], moving: [], gain: true, quoteState: false, quote: [], chartData: [], value: '', loserList: [], gainerList: [], filtered: [], filtered2: [], filtered3: [], stockList: [{ symbol: "AAPL", price: "220.89" }, { symbol: "AMZN", price: "1883.83" }, { symbol: "ENB", price: "38.07" }], loaded: true, initialState, stocks: [], options: {
+      filteredChart: [],hovering:false, moving: [], gain: true, quoteState: false, quote: [], chartData: [], value: '', loserList: [], gainerList: [], filtered: [], filtered2: [], filtered3: [], stockList: [{ symbol: "AAPL", price: "220.89" }, { symbol: "AMZN", price: "1883.83" }, { symbol: "ENB", price: "38.07" }], loaded: true, initialState, stocks: [], options: {
         chart: {
           type: 'line'
         },
@@ -332,7 +332,7 @@ export class Header extends Component {
       ]
 
     const stockCard = {
-      cursor: 'pointer', transitionDuration: '0.6s', display: 'flex', transitionDuration: '0.5s',
+      cursor: 'pointer', transitionDuration: '0.5s', display: 'flex', transitionDuration: '0.5s',
       margin: '10px', borderWeight: '10px', boxShadow: '0px 5px 5px rgba(0, 0, 0, 0.04)', backgroundColor: this.state.hovering ? this.props.color : '#203845', color: 'white', borderRadius: this.state.hovering ? '20px' : '0px'
 
     };
@@ -374,7 +374,11 @@ export class Header extends Component {
 
       ))
     }
-
+    const handleMouseEnter = (data) => { 
+      this.setState({currentStock:data})
+      this.setState({ hovering: true })
+    };
+    const handleMouseLeave = () => this.setState({ hovering: false });
     return (
       <div style={{ marginTop: '0px', backgroundImage: 'none' }}  className="" id="">
         <Modal open={openModal} onClose={this.closeModal} style={{ width: '100%', padding: '30px', backgroundColor: '#172730' }} >
@@ -464,8 +468,8 @@ export class Header extends Component {
                         <Table.Cell>$ {item.open}</Table.Cell>
                       </Table.Row>
                       <Table.Row style={{ backgroundColor: '#203845' }}>
-                        <Table.Cell>$ Previous Close</Table.Cell>
-                        <Table.Cell>{item.previousClose}</Table.Cell>
+                        <Table.Cell> Previous Close</Table.Cell>
+                        <Table.Cell>$ {item.previousClose}</Table.Cell>
                       </Table.Row>
                       <Table.Row style={{ backgroundColor: '#26414f' }}>
                         <Table.Cell>EPS</Table.Cell>
@@ -495,7 +499,7 @@ export class Header extends Component {
                     </div></div>
                   {this.state.filtered.slice(1, this.state.filtered.length).map(item => (
 
-                    <div style={stockCard} onClick={() => this.openModal(item)} className="row">
+                    <div style={stockCard} onMouseEnter={() => this.openModal(item)} onMouseLeave={()=>handleMouseLeave()} onClick={() => this.openModal(item)} className="row">
 
                       <div className="col-lg-3 col-md-3 col-sm-3 col-3">
 
