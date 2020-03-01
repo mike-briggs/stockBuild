@@ -151,13 +151,13 @@ export class Header extends Component {
         console.log(this.state.chartData)
 
       })
-    fetch("https://financialmodelingprep.com/api/v3/stock/actives", requestOptions)
+    fetch("https://financialmodelingprep.com/api/v3/stock/sectors-performance", requestOptions)
       .then(response => response.text())
       .then(result => {
         var json = JSON.parse(result);
 
         this.setState({
-          moving: json.mostActiveStock
+          moving: json.sectorPerformance
 
         });
 
@@ -376,7 +376,7 @@ export class Header extends Component {
     }
 
     return (
-      <div style={{ marginTop: '0px', backgroundImage: 'none' }} className="" id="">
+      <div style={{ marginTop: '0px', backgroundImage: 'none' }}  className="" id="">
         <Modal open={openModal} onClose={this.closeModal} style={{ width: '100%', padding: '30px', backgroundColor: '#172730' }} >
           <Modal.Content scrolling style={{ maxHeight: '100%', background: 'transparent', color: 'white' }}>
             <Button style={{ float: 'right', backgroundColor: '#203845', color: 'white' }}
@@ -433,7 +433,7 @@ export class Header extends Component {
                 {this.state.quote.map((item) => (
                   <Table fluid style={{
                     cursor: 'pointer', border: 'none', marginRight: '15px', transitionDuration: '0.6s', transitionDuration: '0.5s',
-                    margin: '10px', borderWeight: '10px', boxShadow: '0px 5px 5px rgba(0, 0, 0, 0.04)', color: 'white', borderRadius: '0px'
+                    margin: '10px', borderWeight: '10px', boxShadow: '0px 5px 5px rgba(0, 0, 0, 0.04)', color: 'white', borderRadius: '0px',fontWeight:'700'
 
                   }}>
 
@@ -520,23 +520,21 @@ export class Header extends Component {
             </div>
 
             <div className="col-lg-4 col-md-4 col-sm-12 col-12">
-            <h1 style={{ paddingBottom: '0px', margin: '15px', marginRight: '40px', fontSize: '12pt', paddingTop: '0px', paddingBottom: '0px', paddingRight: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left', color: 'white' }}>Top Movers</h1>
+            <h1 style={{ paddingBottom: '0px', margin: '15px', marginRight: '40px', fontSize: '12pt', paddingTop: '0px', paddingBottom: '0px', paddingRight: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left', color: 'white' }}>Top Sectors</h1>
 
-                    {this.state.moving.map(item => (
+                    {this.state.moving.slice(0,9).map(item => (
 
                       <div style={stockCard} onClick={() => this.openModal(item)} className="row">
 
-                        <div className="col-lg-3 col-md-3 col-sm-3 col-3">
+                        <div className="col-lg-6 col-md-6 col-sm-6 col-6">
 
-                          <h1 style={{ paddingBottom: '10px', paddingTop: '20px', fontSize: '12pt', paddingLeft: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left' }}>{item.ticker}</h1>
+                          <h1 style={{ paddingBottom: '10px', paddingTop: '20px', fontSize: '12pt', paddingLeft: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left' }}>{item.sector}</h1>
                         </div>
-                        <div className="col-lg-5 col-md-5 col-sm-5 col-5">
-                          <h1 style={{ paddingBottom: '10px', paddingTop: '20px', fontSize: '11pt', paddingLeft: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left' }}>$ {item.price} </h1>
-                        </div>
+                        
                         <div display="flex" style={{ textAlign: 'right', paddingLeft: '0px' }} className="col-lg-4 col-md-4 col-sm-4 col-4">
                           <p style={{ float: 'right', paddingBottom: '20px', marginBottom: '0px', paddingTop: '20px', fontSize: '9pt', paddingLeft: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left' }}>
-                            {(item.changes < 0) ? (((item.changes.toString().slice(1)) / (item.price - item.changes.toString().slice(1))) * 100).toString().slice(0, 4) : (((item.changes) / (item.price - item.changes)) * 100).toString().slice(0, 4)} %</p>
-                          <Button style={{ float: 'right', fontSize: '12pt', padding: '0px', paddingTop: '20px', borderRadius: '100%', backgroundColor: 'transparent', color: this.state.gain ? '#1aa260' : '#de5246' }} icon><Icon name={this.state.gain ? 'caret up' : 'caret down'} /></Button>
+                            {item.changesPercentage.replace("-","").slice(0,4)}% </p>
+                          <Button style={{ float: 'right', fontSize: '12pt', padding: '0px', paddingTop: '20px', borderRadius: '100%', backgroundColor: 'transparent', color: (!item.changesPercentage.includes("-")) ? '#1aa260' : '#de5246' }} icon><Icon name={(!item.changesPercentage.includes("-"))? 'caret up' : 'caret down'} /></Button>
                         </div>
                       </div>
                     ))}
