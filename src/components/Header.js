@@ -34,7 +34,7 @@ export class Header extends Component {
         "changesPercentage": "(1.43%)",
         "companyName": "Facebook Inc."
       }, graph: false,
-      filteredChart: [], gain: true, quoteState:false,quote:[],chartData: [], value: '', loserList: [], gainerList: [], filtered: [], filtered2: [], filtered3: [], stockList: [{ symbol: "AAPL", price: "220.89" }, { symbol: "AMZN", price: "1883.83" }, { symbol: "ENB", price: "38.07" }], loaded: true, initialState, stocks: [], options: {
+      filteredChart: [], moving: [], gain: true, quoteState: false, quote: [], chartData: [], value: '', loserList: [], gainerList: [], filtered: [], filtered2: [], filtered3: [], stockList: [{ symbol: "AAPL", price: "220.89" }, { symbol: "AMZN", price: "1883.83" }, { symbol: "ENB", price: "38.07" }], loaded: true, initialState, stocks: [], options: {
         chart: {
           type: 'line'
         },
@@ -151,6 +151,20 @@ export class Header extends Component {
         console.log(this.state.chartData)
 
       })
+    fetch("https://financialmodelingprep.com/api/v3/stock/actives", requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        var json = JSON.parse(result);
+
+        this.setState({
+          moving: json.mostActiveStock
+
+        });
+
+
+        console.log(this.state.stockList)
+
+      })
 
 
 
@@ -229,9 +243,9 @@ export class Header extends Component {
       method: 'GET',
       redirect: 'follow'
     };
-    
+
     this.setState({ currentStock: data, openModal: false })
-    fetch("https://financialmodelingprep.com/api/v3/quote/"+data.ticker, requestOptions)
+    fetch("https://financialmodelingprep.com/api/v3/quote/" + data.ticker, requestOptions)
       .then(response => response.text())
       .then(result => {
         var json = JSON.parse(result);
@@ -247,10 +261,10 @@ export class Header extends Component {
 
         });
         console.log(this.state.quote[0].changesPercentage)
-        if(this.state.quote[0].changesPercentage < 0){
-          this.setState({quoteGain: false})
-        }else{
-          this.setState({quoteGain:true})
+        if (this.state.quote[0].changesPercentage < 0) {
+          this.setState({ quoteGain: false })
+        } else {
+          this.setState({ quoteGain: true })
         }
 
         console.log(json)
@@ -412,19 +426,20 @@ export class Header extends Component {
 
           </div>
           <div className="row">
-          <div style={{ padding: '15px' }} className="col-lg-8 col-md-8 col-sm-12 col-12">
-            
-            <div style={{margin:"15px"}} className=""><StockPopup stock={this.openModal ? this.state.currentStock : null} gain={this.state.quoteGain} /></div>
-            <div style={{margin:"15px"}} className="">
-            {this.state.quote.map((item) => (
-        <Table fluid style={{cursor: 'pointer', marginRight: '15px',transitionDuration: '0.6s', transitionDuration: '0.5s',
-        margin: '10px', borderWeight: '10px', boxShadow: '0px 5px 5px rgba(0, 0, 0, 0.04)', backgroundColor: this.state.hovering ? this.props.color : '#203845', color: 'white', borderRadius: '0px'
-  
-      }}>
-          
-  
-          <Table.Body fluid>
-            {/*<Table.Row>
+            <div style={{ padding: '15px', paddingTop: '0px' }} className="col-lg-4 col-md-4 col-sm-12 col-12">
+
+              <div style={{ margin: "15px" }} className=""><StockPopup stock={this.openModal ? this.state.currentStock : null} gain={this.state.quoteGain} /></div>
+              <div style={{ margin: "15px" }} className="">
+                {this.state.quote.map((item) => (
+                  <Table fluid style={{
+                    cursor: 'pointer', border: 'none', marginRight: '15px', transitionDuration: '0.6s', transitionDuration: '0.5s',
+                    margin: '10px', borderWeight: '10px', boxShadow: '0px 5px 5px rgba(0, 0, 0, 0.04)', color: 'white', borderRadius: '0px'
+
+                  }}>
+
+
+                    <Table.Body fluid>
+                      {/*<Table.Row>
               <Table.Cell>Price</Table.Cell>
               <Table.Cell>{item.price}</Table.Cell>
             </Table.Row>
@@ -432,80 +447,105 @@ export class Header extends Component {
               <Table.Cell>% Change</Table.Cell>
               <Table.Cell>{item.changesPercentage}</Table.Cell>
             </Table.Row>*/}
-            <Table.Row>
-              <Table.Cell>Day High/Low</Table.Cell>
-              <Table.Cell>$ {item.dayHigh} / $ {item.dayLow}</Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>Year High/Low</Table.Cell>
-              <Table.Cell>$ {item.yearHigh} / $ {item.yearLow}</Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>Market Cap</Table.Cell>
-              <Table.Cell>$ {item.MarketCap}</Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>Open</Table.Cell>
-              <Table.Cell>$ {item.open}</Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>$ Previous Close</Table.Cell>
-              <Table.Cell>{item.previousClose}</Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>EPS</Table.Cell>
-              <Table.Cell>{item.eps}</Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>P / E</Table.Cell>
-              <Table.Cell>{item.pe}</Table.Cell>
-            </Table.Row>
-            
-          </Table.Body>
-        </Table>
-      ))}</div>
+                      <Table.Row style={{ backgroundColor: '#203845' }}>
+                        <Table.Cell>Day High/Low</Table.Cell>
+                        <Table.Cell>$ {item.dayHigh} / $ {item.dayLow}</Table.Cell>
+                      </Table.Row>
+                      <Table.Row style={{ backgroundColor: '#26414f' }}>
+                        <Table.Cell>Year High/Low</Table.Cell>
+                        <Table.Cell>$ {item.yearHigh} / $ {item.yearLow}</Table.Cell>
+                      </Table.Row>
+                      <Table.Row style={{ backgroundColor: '#203845' }}>
+                        <Table.Cell>Market Cap</Table.Cell>
+                        <Table.Cell>$ {item.MarketCap}</Table.Cell>
+                      </Table.Row>
+                      <Table.Row style={{ backgroundColor: '#26414f' }}>
+                        <Table.Cell>Open</Table.Cell>
+                        <Table.Cell>$ {item.open}</Table.Cell>
+                      </Table.Row>
+                      <Table.Row style={{ backgroundColor: '#203845' }}>
+                        <Table.Cell>$ Previous Close</Table.Cell>
+                        <Table.Cell>{item.previousClose}</Table.Cell>
+                      </Table.Row>
+                      <Table.Row style={{ backgroundColor: '#26414f' }}>
+                        <Table.Cell>EPS</Table.Cell>
+                        <Table.Cell>{item.eps}</Table.Cell>
+                      </Table.Row>
+                      <Table.Row style={{ backgroundColor: '#203845' }}>
+                        <Table.Cell>P / E</Table.Cell>
+                        <Table.Cell>{item.pe}</Table.Cell>
+                      </Table.Row>
+
+                    </Table.Body>
+                  </Table>
+                ))}</div>
             </div>
-          <div className="col-lg-4 col-md-4 col-sm-12 col-12">
-            <div className="row">
-              <div style={{ padding: '15px' }} className="col-lg-12 col-md-12">
-                <div className="row">
-                  <div className="col-lg-6 col-md-6">
-                    <h1 style={{ paddingBottom: '0px', margin: '15px', marginRight: '40px', fontSize: '12pt', paddingTop: '0px', paddingBottom: '0px', paddingRight: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left', color: 'white' }}>{this.state.gain ? 'Top Gainers' : 'Top Losers'}</h1>
+            <div className="col-lg-4 col-md-4 col-sm-12 col-12">
+              <div className="row">
+                <div style={{ padding: '15px' }} className="col-lg-12 col-md-12">
+                  <div className="row">
+                    <div className="col-lg-6 col-md-6">
+                      <h1 style={{ paddingBottom: '0px', margin: '15px', marginRight: '40px', fontSize: '12pt', paddingTop: '0px', paddingBottom: '0px', paddingRight: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left', color: 'white' }}>{this.state.gain ? 'Top Gainers' : 'Top Losers'}</h1>
 
-                  </div>
-                  <div display="flex" className="col-lg-6 col-md-6">
-                    <Button onClick={() => this.gain("gain")} style={{ float: 'right', marginLeft: '0px', marginRight: '15px', backgroundColor: this.state.gain ? '#1aa260' : '#203845', color: this.state.gain ? '#203845' : '#1aa260' }} icon><Icon name='caret up' /></Button>
-                    <Button onClick={() => this.gain("lose")} style={{ float: 'right', borderRadius: '10%', marginLeft: '0px', marginRight: '15px', backgroundColor: this.state.gain ? '#203845' : '#de5246', color: this.state.gain ? '#de5246' : '#203845' }} icon><Icon name='caret down' /></Button>
-
-                  </div></div>
-                {this.state.filtered.slice(1, this.state.filtered.length).map(item => (
-
-                  <div style={stockCard} onClick={() => this.openModal(item)} className="row">
-
-                    <div className="col-lg-3 col-md-3 col-sm-3 col-3">
-
-                      <h1 style={{ paddingBottom: '10px', paddingTop: '20px', fontSize: '12pt', paddingLeft: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left' }}>{item.ticker}</h1>
                     </div>
-                    <div className="col-lg-5 col-md-5 col-sm-5 col-5">
-                      <h1 style={{ paddingBottom: '10px', paddingTop: '20px', fontSize: '11pt', paddingLeft: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left' }}>$ {item.price} </h1>
+                    <div display="flex" className="col-lg-6 col-md-6">
+                      <Button onClick={() => this.gain("gain")} style={{ float: 'right', marginLeft: '0px', marginRight: '15px', backgroundColor: this.state.gain ? '#1aa260' : '#203845', color: this.state.gain ? '#203845' : '#1aa260' }} icon><Icon name='caret up' /></Button>
+                      <Button onClick={() => this.gain("lose")} style={{ float: 'right', borderRadius: '10%', marginLeft: '0px', marginRight: '15px', backgroundColor: this.state.gain ? '#203845' : '#de5246', color: this.state.gain ? '#de5246' : '#203845' }} icon><Icon name='caret down' /></Button>
+
+                    </div></div>
+                  {this.state.filtered.slice(1, this.state.filtered.length).map(item => (
+
+                    <div style={stockCard} onClick={() => this.openModal(item)} className="row">
+
+                      <div className="col-lg-3 col-md-3 col-sm-3 col-3">
+
+                        <h1 style={{ paddingBottom: '10px', paddingTop: '20px', fontSize: '12pt', paddingLeft: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left' }}>{item.ticker}</h1>
+                      </div>
+                      <div className="col-lg-5 col-md-5 col-sm-5 col-5">
+                        <h1 style={{ paddingBottom: '10px', paddingTop: '20px', fontSize: '11pt', paddingLeft: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left' }}>$ {item.price} </h1>
+                      </div>
+                      <div display="flex" style={{ textAlign: 'right', paddingLeft: '0px' }} className="col-lg-4 col-md-4 col-sm-4 col-4">
+                        <p style={{ float: 'right', paddingBottom: '20px', marginBottom: '0px', paddingTop: '20px', fontSize: '9pt', paddingLeft: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left' }}>
+                          {(item.changes < 0) ? (((item.changes.toString().slice(1)) / (item.price - item.changes.toString().slice(1))) * 100).toString().slice(0, 4) : (((item.changes) / (item.price - item.changes)) * 100).toString().slice(0, 4)} %</p>
+                        <Button style={{ float: 'right', fontSize: '12pt', padding: '0px', paddingTop: '20px', borderRadius: '100%', backgroundColor: 'transparent', color: this.state.gain ? '#1aa260' : '#de5246' }} icon><Icon name={this.state.gain ? 'caret up' : 'caret down'} /></Button>
+                      </div>
                     </div>
-                    <div display="flex" style={{ textAlign: 'right', paddingLeft: '0px' }} className="col-lg-4 col-md-4 col-sm-4 col-4">
-                      <p style={{ float: 'right', paddingBottom: '20px', marginBottom: '0px', paddingTop: '20px', fontSize: '9pt', paddingLeft: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left' }}>
-                        {(item.changes < 0) ? (((item.changes.toString().slice(1)) / (item.price - item.changes.toString().slice(1)))*100).toString().slice(0, 4) :(((item.changes) / (item.price - item.changes))*100).toString().slice(0, 4)} %</p>
-                      <Button style={{ float: 'right', fontSize: '12pt', padding: '0px', paddingTop: '20px', borderRadius: '100%', backgroundColor: 'transparent', color: this.state.gain ? '#1aa260' : '#de5246' }} icon><Icon name={this.state.gain ? 'caret up' : 'caret down'} /></Button>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                  
+
+                </div>
+
+
               </div>
-
-
             </div>
+
+            <div className="col-lg-4 col-md-4 col-sm-12 col-12">
+            <h1 style={{ paddingBottom: '0px', margin: '15px', marginRight: '40px', fontSize: '12pt', paddingTop: '0px', paddingBottom: '0px', paddingRight: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left', color: 'white' }}>Top Movers</h1>
+
+                    {this.state.moving.map(item => (
+
+                      <div style={stockCard} onClick={() => this.openModal(item)} className="row">
+
+                        <div className="col-lg-3 col-md-3 col-sm-3 col-3">
+
+                          <h1 style={{ paddingBottom: '10px', paddingTop: '20px', fontSize: '12pt', paddingLeft: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left' }}>{item.ticker}</h1>
+                        </div>
+                        <div className="col-lg-5 col-md-5 col-sm-5 col-5">
+                          <h1 style={{ paddingBottom: '10px', paddingTop: '20px', fontSize: '11pt', paddingLeft: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left' }}>$ {item.price} </h1>
+                        </div>
+                        <div display="flex" style={{ textAlign: 'right', paddingLeft: '0px' }} className="col-lg-4 col-md-4 col-sm-4 col-4">
+                          <p style={{ float: 'right', paddingBottom: '20px', marginBottom: '0px', paddingTop: '20px', fontSize: '9pt', paddingLeft: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left' }}>
+                            {(item.changes < 0) ? (((item.changes.toString().slice(1)) / (item.price - item.changes.toString().slice(1))) * 100).toString().slice(0, 4) : (((item.changes) / (item.price - item.changes)) * 100).toString().slice(0, 4)} %</p>
+                          <Button style={{ float: 'right', fontSize: '12pt', padding: '0px', paddingTop: '20px', borderRadius: '100%', backgroundColor: 'transparent', color: this.state.gain ? '#1aa260' : '#de5246' }} icon><Icon name={this.state.gain ? 'caret up' : 'caret down'} /></Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+
           </div>
-          
-          
-          </div>
-          </div>
-          
+        </div>
+
       </div >
     )
   }
