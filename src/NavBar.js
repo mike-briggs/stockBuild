@@ -85,8 +85,8 @@ export class NavBar extends Component {
                                         <h2 style={{ color: 'rgb(10, 10, 10)', fontFamily: 'Muli', color: 'white', marginTop: '0px', fontSize: '24px', fontWeight: '600', marginTop: '0px', letterSpacing: '0' }}> Tickers</h2>
                                     </a>
                                     <div style={{ float: 'right', paddingTop: '7px' }}>
-                                    <Search style={{ paddingTop: '10px', paddingBottom: '10px' }}
-                        size='small'
+                                    {this.state.search ?<Search style={{ paddingTop: '10px', paddingBottom: '10px' }}
+                        size='mini'
                         loading={this.state.isLoading}
                         onResultSelect={this.stockSearch}
                         onSearchChange={_.debounce(this.handleSearchChange, 500, {
@@ -97,7 +97,9 @@ export class NavBar extends Component {
                         value={this.state.value}
                         fluid
                         {...this.props}
-                      />
+                      />:<Button style={{ marginTop:'10px',float: 'right', backgroundColor: '#203845', color: 'white' }}
+                       icon circular
+                     onClick={()=>this.setState({search:true})}><Icon name='search'/></Button>}
                                     </div>
 
                                 </div>
