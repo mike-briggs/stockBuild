@@ -388,9 +388,9 @@ export class Header extends Component {
           </Modal.Content>
         </Modal>
         <div className="">
-          <div style={{ padding: '0px' }} className="row" >
+          <div style={{margin:'0px'}} className="row" >
 
-            <div className="col-lg-4 col-md-4 col-sm-12 col-12 " style={{ paddingTop: '100px' }}>
+            <div className="col-lg-4 col-md-4 col-sm-12 col-12 " style={{margin:'0px'}} style={{ paddingTop: '100px' }}>
               <div className="col-lg-12 col-md-12 col-sm-12 col-12">
                 {/*<div className="row">
                   <div style={{ paddingLeft: '15px' }} className="col-lg-5 col-md-5 col-sm-12 col-12">
@@ -425,14 +425,14 @@ export class Header extends Component {
             </div>
 
           </div>
-          <div className="row">
-            <div style={{ padding: '15px', paddingTop: '0px' }} className="col-lg-4 col-md-4 col-sm-12 col-12">
+          <div style={{margin:'0px'}} className="row">
+            <div style={{ padding: '0px', paddingTop: '0px' }} className="col-lg-4 col-md-4 col-sm-12 col-12">
 
-              <div style={{ margin: "15px" }} className=""><StockPopup stock={this.openModal ? this.state.currentStock : null} gain={this.state.quoteGain} /></div>
-              <div style={{ margin: "15px" }} className="">
+              <div style={{ margin: "0px" }} className="col-lg-12 col-md-12 col-sm-12 col-12"><StockPopup stock={this.openModal ? this.state.currentStock : null} gain={this.state.quoteGain} /></div>
+              <div style={{ margin: "0px" }} className="col-lg-12 col-md-12 col-sm-12 col-12">
                 {this.state.quote.map((item) => (
                   <Table fluid style={{
-                    cursor: 'pointer', border: 'none', marginRight: '15px', transitionDuration: '0.6s', transitionDuration: '0.5s',
+                    cursor: 'pointer', border: 'none',  transitionDuration: '0.6s', transitionDuration: '0.5s',
                     margin: '10px', borderWeight: '10px', boxShadow: '0px 5px 5px rgba(0, 0, 0, 0.04)', color: 'white', borderRadius: '0px',fontWeight:'700'
 
                   }}>
@@ -531,7 +531,7 @@ export class Header extends Component {
                           <h1 style={{ paddingBottom: '10px', paddingTop: '20px', fontSize: '12pt', paddingLeft: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left' }}>{item.sector}</h1>
                         </div>
                         
-                        <div display="flex" style={{ textAlign: 'right', paddingLeft: '0px' }} className="col-lg-4 col-md-4 col-sm-4 col-4">
+                        <div display="flex" style={{ textAlign: 'right', paddingLeft: '0px' }} className="col-lg-6 col-md-6 col-sm-6 col-6">
                           <p style={{ float: 'right', paddingBottom: '20px', marginBottom: '0px', paddingTop: '20px', fontSize: '9pt', paddingLeft: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left' }}>
                             {item.changesPercentage.replace("-","").slice(0,4)}% </p>
                           <Button style={{ float: 'right', fontSize: '12pt', padding: '0px', paddingTop: '20px', borderRadius: '100%', backgroundColor: 'transparent', color: (!item.changesPercentage.includes("-")) ? '#1aa260' : '#de5246' }} icon><Icon name={(!item.changesPercentage.includes("-"))? 'caret up' : 'caret down'} /></Button>

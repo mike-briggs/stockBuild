@@ -73,10 +73,10 @@ export class NavBar extends Component {
 
         return (
 
-            <div>
-                <header className="header-area header-sticky">
-                    <div className="row">
-                        <div className="col-12">
+            <div style={{margin:'0px'}}>
+                <header style={{margin:'0px'}} className="header-area header-sticky">
+                    <div style={{margin:'0px'}} className="row">
+                        <div style={{margin:'0px'}} className="col-12">
                             <nav className="main-nav">
                                 <div className="container">
                                     <a href="#" className="logo" style={{ display:'flex', color: 'black' }}>
