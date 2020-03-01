@@ -485,11 +485,11 @@ export class Header extends Component {
                 <div style={{ padding: '15px' }} className="col-lg-12 col-md-12">
                   <div className="row">
                     <div className="col-lg-6 col-md-6">
-                      <h1 style={{ paddingBottom: '0px', margin: '15px', marginRight: '40px', fontSize: '12pt', paddingTop: '0px', paddingBottom: '0px', paddingRight: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left', color: 'white' }}>{this.state.gain ? 'Top Gainers' : 'Top Losers'}</h1>
+                      <h1 style={{ paddingBottom: '0px', margin: '15px',marginTop:'0', marginRight: '40px', fontSize: '12pt', paddingTop: '10px', paddingBottom: '0px', paddingRight: '0px', fontFamily: 'Muli', fontWeight: 700, textAlign: 'left', color: 'white' }}>{this.state.gain ? 'Top Gainers' : 'Top Losers'}</h1>
 
                     </div>
                     <div display="flex" className="col-lg-6 col-md-6">
-                      <Button onClick={() => this.gain("gain")} style={{ float: 'right', marginLeft: '0px', marginRight: '15px', backgroundColor: this.state.gain ? '#1aa260' : '#203845', color: this.state.gain ? '#203845' : '#1aa260' }} icon><Icon name='caret up' /></Button>
+                      <Button onClick={() => this.gain("gain")} style={{float: 'right', marginLeft: '0px', marginRight: '15px', backgroundColor: this.state.gain ? '#1aa260' : '#203845', color: this.state.gain ? '#203845' : '#1aa260' }} icon><Icon name='caret up' /></Button>
                       <Button onClick={() => this.gain("lose")} style={{ float: 'right', borderRadius: '10%', marginLeft: '0px', marginRight: '15px', backgroundColor: this.state.gain ? '#203845' : '#de5246', color: this.state.gain ? '#de5246' : '#203845' }} icon><Icon name='caret down' /></Button>
 
                     </div></div>

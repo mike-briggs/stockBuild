@@ -10,7 +10,7 @@ export class StockPopup extends Component {
             <div style={{ padding: '0px',background:'transparent' }} className="row" >
               <div className="col-lg-7 col-md-7 col-sm-5 col-5" style={{ background:'transparent'}}>
                 <h1 style={{fontSize:'3em', paddingTop:'0px',paddingBottom:'15px',paddingLeft: '15px', fontFamily: 'Raleway', fontWeight: 700, textAlign: 'left' }}>{this.props.stock.ticker}</h1>
-                <h4 style={{ fontSize:'12pt',paddingTop:'10px',paddingBottom:'0px',paddingLeft: '15px', fontFamily: 'Muli', fontWeight: 600, textAlign: 'left' }}>{this.props.stock.companyName}</h4>
+                <h4 style={{ fontSize:'12pt',paddingTop:'0px',paddingBottom:'0px',paddingLeft: '15px', fontFamily: 'Muli', fontWeight: 600, textAlign: 'left' }}>{this.props.stock.companyName}</h4>
 
                 <div className="col-lg-10 col-md-10 col-sm-12 col-12">
                   <div className="row">
